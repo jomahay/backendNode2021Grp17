@@ -51,44 +51,7 @@ function getAssignments(req, res){
     
 }
 
-function getAssignmentsByRendu(req, res){
-    console.log(req.params.rendu)
-    var bool_value = req.params.rendu == "true" ? true : false
-    console.log(bool_value)
 
-    var aggregateQuery = Assignment.aggregate([
-
-        {"$match": {rendu: bool_value }},
-        { "$lookup": {
-            "from": "matieres",
-            "localField": "matiere",
-            "foreignField": "_id",
-            "as": "matiere"
-        }},
-        { "$lookup": {
-            "from": "utilisateurs",
-            "localField": "eleve",
-            "foreignField": "_id",
-            "as": "eleve"
-        }},
-  ]);
-  
-    Assignment.aggregatePaginate(
-        aggregateQuery ,
-      {
-        page: parseInt(req.query.page) || 1,
-        limit: parseInt(req.query.limit) || 10,
-      },
-      (err, assignments) => {
-        if (err) {
-          res.send(err);
-        }
-        res.send(assignments);
-      }
-    );
-   
-    
-}
 
 
 // Récupérer un assignment par son id (GET)
@@ -165,4 +128,4 @@ function deleteAssignment(req, res) {
 
 
 
-module.exports = { getAssignments, postAssignment, getAssignment, updateAssignment, deleteAssignment,getAssignmentsByRendu };
+module.exports = { getAssignments, postAssignment, getAssignment, updateAssignment, deleteAssignment};
