@@ -54,6 +54,7 @@ function getMatiere(req, res){
 function postMatiere(req, res){
     const nom=req.body.nom;
     const prof=req.body.prof;
+    const image=req.body.image;
 
     Matiere.findOne({nom: nom}, (err, matiere) =>{
 
@@ -69,13 +70,13 @@ function postMatiere(req, res){
         return res.status(400).send({etat:false, message:'la matière existe déja'});
       }
         
-        if(!req.file || !req.body.nom || !req.body.prof) {
+        if(!req.body.image || !req.body.nom || !req.body.prof) {
             return res.status(500).send({ message: 'Insertion impossible '});
         }else{
             let matiere = new Matiere();
         
             matiere.nom = nom;
-            matiere.image = req.file.filename;
+            matiere.image = image;
             matiere.prof = prof;
             
             
@@ -98,35 +99,9 @@ function postMatiere(req, res){
   
 }
 
-// Update d'un matiere avec fichier (PUT)
+
+//Update d'un matiere  (PUT)
 function updateMatiere(req, res) {
-    if(!req.file || !req.body.nom || !req.body.prof){
-
-        return res.status(500).send({ message: 'modification impossible '});
-
-    }else{
-        console.log("UPDATE recu matiere : ");
-    console.log(req.body);
-
-    const body = {
-        nom: req.body.nom,
-        prof: req.body.prof,
-        image:  req.file.filename
-      };
-    Matiere.findByIdAndUpdate(req.body.id, body, {new: true}, (err, matiere) => {
-        if (err) {
-            console.log(err);
-            res.send(err)
-        } else {
-           
-          res.json({message: 'modification éffectué'})
-        }
-
-    });
-    }
-}
-//Update d'un matiere SANS fichier (PUT)
-function updateMatiereSansFichier(req, res) {
     console.log("UPDATE recu matiere : ");
     console.log(req.body);
     const body = {
@@ -159,22 +134,10 @@ function deleteMatiere(req, res) {
             res.send(err);
         }
         console.log(matiere.image +" image");
-        //effacer les fichiers images lors de la suppression
-        let fileNameWithPath = "./public/images/" + matiere.image;
-        console.log(fileNameWithPath);
-        if (fs.existsSync(fileNameWithPath)) {
-            fs.unlink(fileNameWithPath, (err) => {
-                if(err)
-                    console.log(err);
-                
-                console.log("effacer"+matiere.image )
-
-            });
-          }
         res.json({message: `matière supprimée`});
     })
 }
 
 
 
-module.exports = { getMatieres,getAllMatiere, getMatiere, postMatiere, updateMatiere, deleteMatiere ,updateMatiereSansFichier};
+module.exports = { getMatieres,getAllMatiere, getMatiere, postMatiere, updateMatiere, deleteMatiere};

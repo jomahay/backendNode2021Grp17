@@ -7,6 +7,7 @@ const prefix = '/api';
 app.route(prefix + '/assignments')
   .get(verification.verificationToken,assignment.getAssignments);
 
+ 
 app.route(prefix + '/assignments/:id')
   .get(verification.verificationToken,assignment.getAssignment)
   .delete(verification.verificationToken,assignment.deleteAssignment);

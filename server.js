@@ -9,7 +9,7 @@ const utilisateurController = require('./controller/utilisateurController');
 let mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
-global.__basedir = __dirname;
+
 //mongoose.set('debug', true);
 
 // remplacer toute cette chaine par l'URI de connexion à votre propre base dans le cloud s

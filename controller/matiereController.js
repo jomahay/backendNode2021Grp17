@@ -1,7 +1,7 @@
 let express = require('express');
 let app = express();
 const matiere = require('../routes/matieres');
-const uploadFile = require("../upload");
+
 const verification = require("../verification");
 const prefix = '/api';
 
@@ -17,10 +17,8 @@ app.route(prefix + '/matiere/:id')
 
 
 app.route(prefix + '/matiere')
-  .post([verification.verificationAdmin,uploadFile.single('file') ],matiere.postMatiere)
-  .put([verification.verificationAdmin,uploadFile.single('file') ],matiere.updateMatiere);
- 
-  app.route(prefix + '/matieres')
-  .put(verification.verificationToken,matiere.updateMatiereSansFichier);
+  .post(verification.verificationAdmin,matiere.postMatiere)
+  .put(verification.verificationAdmin ,matiere.updateMatiere);
+
 
 module.exports = app;

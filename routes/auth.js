@@ -10,6 +10,7 @@ const Utilisateur = require('../model/utilisateur');
     const prenom = req.body.prenom;
     const role = req.body.role;
     const motDePasse = req.body.motDePasse;
+    const image= req.body.image;
 
   //Vérification email
   let emailRegex = /\S+@\S+\.\S+/;
@@ -31,7 +32,7 @@ const Utilisateur = require('../model/utilisateur');
       console.log("Email déjà existant");
       return res.status(400).send({etat:false, message:'Email déjà existant.'});
     }
-    if(!req.file || !nom || !prenom || !email || !role || !motDePasse ) {
+    if(!image || !nom || !prenom || !email || !role || !motDePasse ) {
       return res.status(500).send({etat:false, message: 'insertion impossible '});
     }else {
       var nouveauUtilisateur = new Utilisateur();
@@ -39,7 +40,7 @@ const Utilisateur = require('../model/utilisateur');
       nouveauUtilisateur.prenom=prenom;
       nouveauUtilisateur.email=email;
       nouveauUtilisateur.role=role;
-      nouveauUtilisateur.image=req.file.filename;
+      nouveauUtilisateur.image=image;
     
     nouveauUtilisateur.hash_motDePasse =bcrypt.hashSync(motDePasse,8);
     nouveauUtilisateur.save(function(err, utilisateur) {
@@ -59,48 +60,10 @@ const Utilisateur = require('../model/utilisateur');
   });
     
   }
-  //update utilisateur avec fichier (PUT)
-  function updateUtilisateur(req, res) {
-
   
-    if(!req.file || !req.body.nom || !req.body.prenom || !req.body.email || !req.body.role || !req.body.motDePasse ) {
-     
-      return res.status(500).send({etat:false, message: 'modification impossible '});
-    }else {
-      console.log(req.body);
-      let emailRegex = /\S+@\S+\.\S+/;
-      if (!emailRegex.test(req.body.email)){
-        console.log("Email invalide");
-        return res.status(400).send('Email invalide.');
-      }
-     
-       const body = {
-        nom: req.body.nom,
-        prenom: req.body.prenom,
-        email:req.body.email,
-        role:req.body.role,
-        hash_motDePasse:req.body.motDePasse,
-        image:  req.file.filename
-      };
-    
-      Utilisateur.findByIdAndUpdate(req.body.id, body, {new: true}, (err, utilisateur) => {
-        if (err) {
-            console.log(err);
-            res.send(err)
-        } else {
-           
-          res.json({message: 'modification éffectué'})
-        }
-
-    });
-       
-
-      
-    }
-  }
 
   //update utilisateur sans fichier (PUT)
-function updateUtilisateurSansFichier(req, res) {
+function updateUtilisateur(req, res) {
  
   console.log(req.body);
 
@@ -151,4 +114,4 @@ function updateUtilisateurSansFichier(req, res) {
   
 
 
-module.exports = { register, login,updateUtilisateur,updateUtilisateurSansFichier};
+module.exports = { register, login,updateUtilisateur,updateUtilisateur};

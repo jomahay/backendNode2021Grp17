@@ -4,12 +4,12 @@ const utilisateur = require('../routes/utilisateurs');
 
 const auth = require('../routes/auth');
 const verification = require("../verification");
-const uploadFile = require("../upload");
+
 const prefix = '/api';
 
 
 app.route(prefix + '/utilisateur/register')
-  .post([verification.verificationAdmin,uploadFile.single('file')],auth.register);
+  .post(verification.verificationAdmin,auth.register);
 
 
 app.route(prefix + '/utilisateur/login')
@@ -25,14 +25,13 @@ app.route(prefix +'/utilisateur/:id')
 
 app.route(prefix +'/utilisateurs')
 .get(verification.verificationToken,utilisateur.getUtilisateurs)
-.put([verification.verificationToken,uploadFile.single('file')],auth.updateUtilisateur);
+.put(verification.verificationToken,auth.updateUtilisateur);
 
 
 app.route(prefix +'/user/:role')
 .get(verification.verificationToken,utilisateur.getUtilisateurByRole);
 
-app.route(prefix +'/user')
-.put(verification.verificationAdmin,auth.updateUtilisateurSansFichier);
+
 
 module.exports = app;
 
