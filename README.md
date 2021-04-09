@@ -7,9 +7,9 @@ Ceci est le backend de notre projet de gestion d 'assignment.
 
  ## Démarrage et fonctionnement du projet dans un autre ordinateur 
 
-Après avoir télécharger le projet,ouvrez : 
- le dossier pour le back et faites aussi npm install , 
-puis faites node server.js 
+ Après avoir télécharger le projet,ouvrez :
+	
+	 le  dossier  pour le back et faites aussi npm install , puis faites node server.js 
 
 ## Auteur L'application a été conçue par le groupe 17 composé de:
 
