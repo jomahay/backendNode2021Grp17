@@ -17,5 +17,5 @@ puis faites node server.js
 
  . RANOMENJANAHARY Miora Gabrielle n°46 
 
-## lien du front-end github
+## lien de notre projet front-end github
 https://github.com/jomahay/frontendgrp17-2021Madagascar
